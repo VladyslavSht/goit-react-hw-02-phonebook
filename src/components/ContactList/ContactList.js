@@ -4,13 +4,13 @@ import s from './ContactList.module.css';
 function ContactList({ filteredContacts, onDeleteContact }) {
   return (
     <ul className={s.list}>
-      {filteredContacts.map(contact => {
+      {filteredContacts.map(({ id, name, number }) => {
         return (
-          <li key={contact.id} className={s.contact}>
-            {contact.name}: {contact.number}
+          <li key={id} className={s.contact}>
+            {name}: {number}
             <button
               type="click"
-              onClick={() => onDeleteContact(contact.id)}
+              onClick={() => onDeleteContact(id)}
               className={s.button}
             >
               Remove
@@ -23,7 +23,13 @@ function ContactList({ filteredContacts, onDeleteContact }) {
 }
 
 ContactList.propTypes = {
-  filteredContacts: PropTypes.array.isRequired,
+  filteredContacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ),
   onDeleteContact: PropTypes.func.isRequired,
 };
 
